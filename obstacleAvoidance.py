@@ -7,7 +7,7 @@ import random
 import pickle
 from collections import deque
 
-# ====== IMPROVED CONSTANTS ======
+# ====== CONSTANTS ======
 LEARNING_RATE = 0.1       # Reduced from 0.3
 DISCOUNT = 0.99
 EPISODES = 1000           # Increased from 1000
@@ -71,7 +71,7 @@ class HuskyEnv:
         p.resetBaseVelocity(self.car, [0, 0, 0], [0, 0, 0])
         return self.get_state()
     
-    # ====== IMPROVED STATE REPRESENTATION ======
+    # ====== STATE REPRESENTATION ======
     def get_state(self):
         # Get depth image with multiple viewpoints
         _, depth = get_camera_image(self.car)
@@ -121,7 +121,7 @@ class HuskyEnv:
         
         return (left_state, center_state, right_state, dx, dy, yaw_state)
     
-    # ====== IMPROVED STEP FUNCTION WITH BETTER REWARDS ======
+    # ====== STEP FUNCTION WITH BETTER REWARDS ======
     def step(self, action):
         # Get current position BEFORE taking action
         current_pos, _ = p.getBasePositionAndOrientation(self.car)
@@ -152,7 +152,7 @@ class HuskyEnv:
         x, y, _ = new_pos
         new_distance = np.linalg.norm(np.array([x, y]) - self.goal_pos)
         
-        # ====== IMPROVED REWARD STRUCTURE ======
+        # ====== REWARD STRUCTURE ======
         # Base small penalty for each step to encourage efficiency
         reward = -0.1
         
@@ -191,7 +191,7 @@ class HuskyEnv:
         with open('qtable.pickle', 'wb') as f:
             pickle.dump(self.q_table, f)
 
-# ====== IMPROVED COLLISION DETECTION ======
+# ====== COLLISION DETECTION ======
 def detect_collision(car, walls):
     # Check using depth image
     image, depth = get_camera_image(car)
@@ -274,7 +274,7 @@ def is_Obstacle(car):
     distance = depth[center_y][center_x]
     return distance < 0.75
 
-# ====== IMPROVED TRAINING FUNCTION WITH DEBUGGING ======
+# ====== TRAINING FUNCTION WITH DEBUGGING ======
 def train_agent():
     env = HuskyEnv()
     epsilon = EPSILON
